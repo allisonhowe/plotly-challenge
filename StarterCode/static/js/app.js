@@ -15,6 +15,7 @@ d3.json("samples.json").then(function(bellybuttondata) {
   
   Plotly.newPlot("bar", data, {});
 
+  // Create a bubble chart that displays each sample.
   var trace1 = {
     x: bellybuttondata.samples[0].otu_ids,
     y: bellybuttondata.samples[0].sample_values,
