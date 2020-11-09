@@ -1,6 +1,25 @@
 // Use the D3 library to read in `samples.json`.
 d3.json("samples.json").then(function(bellybuttondata) {
 
+  // Use D3 to select the dropdown menu
+  var dropdownMenu = d3.select("#selDataset");
+  dropdownMenu
+    .selectAll('option')
+    .data(bellybuttondata.names)
+    .enter()
+    .append('option')
+    .text(x => x)
+    .attr("value", x => x);
+
+  var selectedItem = dropdownMenu.node().value;
+  var selectedItemIndex = bellybuttondata.names.indexOf(selectedItem);
+  d3.select("#demographicInfo")
+    .selectAll('div')
+    .data(Object.entries(bellybuttondata.metadata[selectedItemIndex]))
+    .enter()
+    .append('div')
+    .text(x => `${x[0]}: ${x[1]}`);
+
   // Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
   console.log(bellybuttondata)
   var trace1 = {
@@ -30,10 +49,5 @@ d3.json("samples.json").then(function(bellybuttondata) {
   var data = [trace1];
   
   Plotly.newPlot('bubble', data, {});
-
-  //   // Use D3 to select the dropdown menu
-  //   var dropdownMenu = d3.select("#selDataset");
-  //   // Assign the value of the dropdown menu option to a variable
-  //   var dataset = dropdownMenu.node().value;
 });
 
